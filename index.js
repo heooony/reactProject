@@ -14,7 +14,7 @@ mongoose.connect('mongodb+srv://oueya1479:Kimdongheon316!@myapp.rq6tl.mongodb.ne
 .catch(err => console.log(err))
 
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+  res.send('Hello World!~')
 })
 
 app.listen(port, () => {
