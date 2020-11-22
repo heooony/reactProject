@@ -2,10 +2,13 @@ const express = require('express')
 const app = express()
 const port = 3000
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser')
 const {User} = require("./models/User")
 const config = require('./config/key')
+
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
+app.use(cookieParser())
 
 const mongoose = require('mongoose')
 mongoose.connect(config.mongoURI, {
@@ -48,12 +51,15 @@ app.post('/login', (req, res) => {
       })
       //token생성
       user.generateToken((err, user) => {
-
+        if(err) return res.status(400).send(err)
+        //token save(cookie or localstorage)
+        res.cookie("x_auth", user.token)
+        .status(200)
+        .json({
+          loginSuccess: true,
+          userId: user._id
+        })
       })
     })
-
   })
-  
-
-  
 })
